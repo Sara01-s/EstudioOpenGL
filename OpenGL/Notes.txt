@@ -1,0 +1,41 @@
+Parse shader with vertex and fragment separated
+using a ""custom preprocessor directive"" #shader
+
+struct ShaderSource {
+    std::string VertexSource;
+    std::string FragmentSource;
+};
+
+static ShaderSource ParseShader(const std::string& filePath) {
+    
+    enum class ShaderType { NONE = -1, VERTEX = 0, FRAGMENT = 1 };
+
+    std::ifstream byteStream(filePath);
+    std::string line {};
+    std::stringstream strStream[2]; // 2 stringstreams, uno para cada shader
+
+    ShaderType shaderType = ShaderType::NONE;
+
+
+    while (getline(byteStream, line)) { // Mientras leemos el shader
+
+        if (line.find("#shader") != std::string::npos) { // si "#shader" no es inválido (está presente)
+
+            if (line.find("vertex") != std::string::npos) {
+                // Estamos leyendo el vertex shader
+                shaderType = ShaderType::VERTEX;
+            }
+            else if (line.find("fragment") != std::string::npos) {
+                // Estamos leyendo el fragment shader
+                shaderType = ShaderType::FRAGMENT;
+            }
+        }
+        else { // Es cualquier otra línea de código que no es "#shader ..."
+            if (shaderType != ShaderType::NONE)
+                strStream[static_cast<int>(shaderType)] << line << '\n'; // La añadimos a su respectivo string stream
+        }
+    }
+
+    ShaderSource shaderSource{ strStream[0].str(), strStream[1].str() };
+    return shaderSource;
+}

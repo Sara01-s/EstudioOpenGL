@@ -8,7 +8,7 @@
 
 // Macros para expandir el "debugger" de OpenGL
 #ifdef _DEBUG
-    #define ASSERT(x) if (!(x)) __debugbreak();
+    #define ASSERT(x) if (!(x)) __debugbreak();// __debugbreak hará un breakpoint pero solo funciona en Visual C++ (es intrínsico del compilador)
     #define GLCall(x) GLClearError();\
                       x;\
                       ASSERT(GLLogCall(#x, __FILE__, __LINE__))
@@ -190,15 +190,15 @@ int main(void) {
     // El tamaño de un GL_ARRAY_Buffer está en bytes.
     float dataToGPU[] = {
          -0.5f, -0.5f, // index 0
-         0.5f,  -0.5f, // index 1
-         0.5f,  0.5f, // index 2
+          0.5f, -0.5f, // index 1
+          0.5f,  0.5f, // index 2
 
          -0.5f,  0.5f, // index 3
     };
 
     // Recordar que los triángulos se dibujan en sentido antehorario
     unsigned int indices[] = {
-        0, 1, 2, // Primer triángulo (que consiste de indices 0, 1, 2)
+        0, 1, 2, // Primer triángulo (que consiste de indices 0, 1, 2) (ver dataToGPU)
         2, 3, 0  // Segundo triángulo (que consiste de indices 2, 3, 0)
     };
 
@@ -219,25 +219,26 @@ int main(void) {
     // es un montón de bytes, GL sabe que son floats, pero no sabe aún como interpretarlos, 
     // (podrían ser cualquier cosa, vértices, texturas, colores, normales, etc...
     // desc: https://docs.gl/gl4/glBufferData
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 2, &dataToGPU[0], GL_STATIC_DRAW);
+    // 4 es la cantidad de indices en dataToGPU y 2 las dimensiones de estos.
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * 2, &dataToGPU[0], GL_STATIC_DRAW);
 
     // Ahora indicaremos a OpenGL como interpretar la data que le dimos,
     // podemos hacer esto en cualquier momento,
     // pero afectará al buffer arbitrario que tengamos seleccionado.
 
-    // Ok, aquí se pone loco:
+    // Ok, aquí se pone loco (Intentaremos describirle la data a la GPU):
     // index      : donde comienza el buffer de vertex/s
     // size       : de que tamaño son los atributos de datos que le doy? (ej: positions = 2)
     // normalized : remapea el valor a [0, 1]. ej: un color [0, 255] pasa a ser [0, 1], podemos hacerlo nosotros, pero OpenGL puede hacerlo por nosotros :)
     // stride     : representa cada cuantas bytes están separados los vertex (vertex = posicion + color + normal + etc... de 1 "objeto")
     // pointer    : es el puntero que salta entre los datos relevantes de nuestro vertex, (de la posición al color a la normal del vertex), luego se puede usar el macro offsetof.
-        
+
     // Ej: 32 bytes
-    //            * ->  *    ->     * ->    (* es el puntero que salta entre pos, col y tan
+    //            * ->  *    ->     * ->    ('*' es el puntero que salta entre pos, col y tan)
     //            | pos | col (red) | tan |
     // vertex 1 = |A5|B3|FF|00|00|FF|5F|9C| |00|00|00|00|00|00|00|00| (vertex 1 size = 1 stride = 16 bytes)
     // vertex 2 = |00|00|00|00|00|00|00|00| |00|00|00|00|00|00|00|00| 
-    
+
     // Hay que activar el atributo primero eso si XD
     // desc: https://docs.gl/gl4/glEnableVertexAttribArray
     glEnableVertexAttribArray(0);
@@ -245,12 +246,12 @@ int main(void) {
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
 
 
-    ShaderSource shaderSource = ShaderSource {
+    ShaderSource shaderSource = ShaderSource{
         ParseFile("res/shaders/shader_basic_vertex.glsl"),
         ParseFile("res/shaders/shader_basic_fragment.glsl")
     };
     unsigned int shader = CreateShader(shaderSource.VertexSource, shaderSource.FragmentSource);
-    
+
     // Este programa será usado al hacer un draw call!
     // desc: https://docs.gl/gl4/glUseProgram
     glUseProgram(shader);
@@ -286,8 +287,8 @@ int main(void) {
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
         // Animar una variable uniforme :)
-        if      (red > 1.0f) increment = -0.01f;
-        else if (red < 0.0f) increment =  0.01f;
+        if (red > 1.0f) increment = -0.01f;
+        else if (red < 0.0f) increment = 0.01f;
         red += increment;
 
         /* Swap front and back buffers */

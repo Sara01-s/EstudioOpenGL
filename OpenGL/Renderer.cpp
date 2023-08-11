@@ -19,3 +19,22 @@ _NODISCARD bool GLLogCall(const char* function, const char* file, int line) {
 
     return true;
 }
+
+void Renderer::ClearScreen() const {
+    GLCall(glClear(GL_COLOR_BUFFER_BIT));
+}
+
+void Renderer::Draw(const VertexArray& vertexArray, const IndexBuffer& indexBuffer, const Shader& shader) const {
+
+    shader.Bind();
+    vertexArray.Bind();
+    indexBuffer.Bind();
+
+    // Draw call para dibujar elementos usando index buffers
+    // el último parámetro es el puntero al index buffer
+    // pero ya que está bindeado, no es necesario pasarlo.
+    // Ahora mismo asumimos que el tipo de data es unsigned int
+    // desc: https://docs.gl/gl4/glDrawElements
+    GLCall(glDrawElements(GL_TRIANGLES, indexBuffer.GetCount(), GL_UNSIGNED_INT, nullptr));
+
+}

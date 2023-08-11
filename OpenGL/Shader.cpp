@@ -23,14 +23,29 @@ void Shader::Unbind() const {
     GLCall(glUseProgram(0));
 }
 
-void Shader::SetUniform4F(const std::string& propertyName, float v0, float v1, float v3, float v4) {
+void Shader::SetUniformInt(const std::string& propertyName, int value) {
+    GLCall(glUniform1i(GetUniformLocation(propertyName), value));
+}
 
-    unsigned int location = GetUniformLocation(propertyName);
-    GLCall(glUniform4f(location, v0, v1, v3, v4));
+void Shader::SetUniformFloat(const std::string& propertyName, float value) {
+    GLCall(glUniform1f(GetUniformLocation(propertyName), value));
+}
+
+void Shader::SetUniformFloat4(const std::string& propertyName, float v0, float v1, float v3, float v4) {
+
+    GLCall(glUniform4f(GetUniformLocation(propertyName), v0, v1, v3, v4));
 }
 
 int Shader::GetUniformLocation(const std::string& propertyName) {
+    // Para evitar que se llame a la función glGetUniformLocation en un loop
+    // creamos un caché (hashmap, diccionario, unordered_map)
+    // que guarde los nombres ya encontrados y los devuelva en tiempo constante (O(1))
+    if (m_UniformLocationCache.find(propertyName) != m_UniformLocationCache.end())
+        return m_UniformLocationCache[propertyName];
+
     GLCall(int location = glGetUniformLocation(m_RendererID, propertyName.c_str()));
+    m_UniformLocationCache[propertyName] = location;
+
     return location;
 }
 

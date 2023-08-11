@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <unordered_map>
 
 struct ShaderSource {
 	std::string VertexSource;
@@ -17,13 +18,16 @@ public:
 	void Unbind() const;
 
 	// usar uniforms
-	void SetUniform4F(const std::string& propertyName, float v0, float v1, float f1, float f2);
+	void SetUniformInt(const std::string& propertyName, int value);
+	void SetUniformFloat(const std::string& propertyName, float value);
+	void SetUniformFloat4(const std::string& propertyName, float v0, float v1, float f1, float f2);
 
 private:
 
-	unsigned int m_RendererID {};
-	std::string m_VertexFilePath;
-	std::string m_FragmentFilePath;
+	unsigned int m_RendererID{};
+	std::string m_VertexFilePath{};
+	std::string m_FragmentFilePath{};
+	std::unordered_map<std::string, int> m_UniformLocationCache{};
 	
 	unsigned int CompileShader(unsigned int type, const std::string& source);
 	unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader);

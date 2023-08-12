@@ -2,6 +2,8 @@
 #include "Renderer.h"
 #include "Utils.h"
 
+#include <GLM/glm/gtc/type_ptr.hpp>
+
 Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath) 
 	: m_RendererID(0), m_VertexFilePath(vertexPath), m_FragmentFilePath(fragmentPath)
 {
@@ -32,8 +34,12 @@ void Shader::SetUniformFloat(const std::string& propertyName, float value) {
 }
 
 void Shader::SetUniformFloat4(const std::string& propertyName, float v0, float v1, float v3, float v4) {
-
     GLCall(glUniform4f(GetUniformLocation(propertyName), v0, v1, v3, v4));
+}
+
+void Shader::SetUniformMat4F(const std::string& propertyName, const glm::mat4& matrix) {
+    // 'v' es porque es un array
+    GLCall(glUniformMatrix4fv(GetUniformLocation(propertyName), 1, GL_FALSE, glm::value_ptr(matrix)));
 }
 
 int Shader::GetUniformLocation(const std::string& propertyName) {

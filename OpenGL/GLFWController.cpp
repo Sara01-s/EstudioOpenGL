@@ -37,6 +37,6 @@ int GLFWController::Initialize() {
         return -1;
     }
 
-    std::cout << "Utilizando version de OpenGL: " << glGetString(GL_VERSION) << '.\n';
+    std::cout << "Utilizando version de OpenGL: " << glGetString(GL_VERSION) << '\n';
 
 }

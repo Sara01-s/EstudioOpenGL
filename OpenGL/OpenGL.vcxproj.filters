@@ -27,6 +27,12 @@
     <Filter Include="external\imgui">
       <UniqueIdentifier>{86f6d3ea-2c37-46cb-a5d1-5668443f5eb6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Tests">
+      <UniqueIdentifier>{2ac0e3b4-f30f-4837-8134-15f5fb8a5b1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="headers\Tests">
+      <UniqueIdentifier>{40dc49c7-ce91-46c0-aefb-bdb8dbd9da79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp">
@@ -76,6 +82,12 @@
     </ClCompile>
     <ClCompile Include="external\imgui\imgui_impl_opengl3.cpp">
       <Filter>external\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <Filter>src\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="TestClearColor.cpp">
+      <Filter>src\Tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +150,12 @@
     </ClInclude>
     <ClInclude Include="external\imgui\imgui_impl_opengl3_loader.h">
       <Filter>external\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Test.h">
+      <Filter>headers\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="TestClearColor.h">
+      <Filter>headers\Tests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

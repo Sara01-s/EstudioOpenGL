@@ -30,11 +30,11 @@ int main(void) {
     // las 2 columnas de la izquierda son posiciones
     // las 2 columnas de la derecha son texcoords
     float vertexBufferData[] = {
-         100.0f, 100.0f,   0.0f, 0.0f, // index 0
-         200.0f, 100.0f,   1.0f, 0.0f, // index 1
-         200.0f, 200.0f,   1.0f, 1.0f, // index 2
+         -50.0f, -50.0f,   0.0f, 0.0f, // index 0
+          50.0f, -50.0f,   1.0f, 0.0f, // index 1
+          50.0f,  50.0f,   1.0f, 1.0f, // index 2
 
-         100.0f, 200.0f,   0.0f, 1.0f  // index 3
+         -50.0f,  50.0f,   0.0f, 1.0f  // index 3
     };
 
     // Recordar que los triángulos se dibujan en sentido antehorario
@@ -75,7 +75,7 @@ int main(void) {
     // Creamos una matriz de proyección (el espacio del mundo)
     // si multiplicamos los primeros 4 parametros, obtienes 4 * 3 (el aspect ratio actual)
     glm::mat4 projection = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
-    glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100.0f, 0.0f, 0.0f)); // mover view -100 pixeles
+    glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)); // mover view (cámara)
 
     Shader shader{ "res/shaders/shader_basic_vertex.glsl", "res/shaders/shader_basic_fragment.glsl" };
     shader.Bind(); 

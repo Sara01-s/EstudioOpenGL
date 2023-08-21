@@ -6,12 +6,13 @@ public:
 
 private: 
 	// Todos los "objetos" de OpenGL (Texturas, Vertex buffers, Shader, Vertex Arrays, etc...)
-	// esta ID los identifica
+	// tienen esta ID que los identifica
 private:
 	unsigned int m_RendererID;
 	unsigned int m_Count; // Cuántos indices vamos a usar
 
 public:
+	IndexBuffer() = default;
 	IndexBuffer(const unsigned int* data, unsigned int count);
 	~IndexBuffer();
 

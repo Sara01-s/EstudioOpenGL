@@ -25,7 +25,7 @@ _NODISCARD bool GLLogCall(const char* function, const char* file, int line);
 class Renderer {
 
 public:
-
+    Renderer() = default;
     void ClearScreen() const;
     void Draw(const VertexArray& vertexArray, const IndexBuffer& indexBuffer, const Shader& shader) const;
 

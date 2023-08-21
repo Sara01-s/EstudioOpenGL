@@ -11,16 +11,24 @@ void GLClearError() {
 
 _NODISCARD bool GLLogCall(const char* function, const char* file, int line) {
     // Mientras que glGetError no retorne 0 (o sea un error)
+    bool sucess = true;
     while (GLenum error = glGetError()) {
-        std::cout << "\n[OpenGL Error] (" << error << "): "
-            << function << " " << file << ":" << line << '\n';
-        return false;
+        sucess = false;
+        if (error == 1282) {
+            std::cout << "\n[OpenGL Error] (Invalid Operation): "
+                << function << " " << file << ":" << line << '\n';
+        }
+        else {
+            std::cout << "\n[OpenGL Error] (" << error << "): "
+                << function << " " << file << ":" << line << '\n';
+        }
     }
 
-    return true;
+    return sucess;
 }
 
 void Renderer::ClearScreen() const {
+    GLCall(glClearColor(0.2f, 0.3f, 0.8f, 1.0f));
     GLCall(glClear(GL_COLOR_BUFFER_BIT));
 }
 

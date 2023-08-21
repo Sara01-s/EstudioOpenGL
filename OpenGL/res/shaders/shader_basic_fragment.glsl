@@ -7,12 +7,12 @@ uniform vec4 u_Color;
 // por aqui entra la textura
 uniform sampler2D u_Texture;
 
-in vec2 v_TexCoord; // esta data nos llegará del out v_TexCoord del Vertex Shader
+//in vec2 v_TexCoord; // esta data nos llegará del out v_TexCoord del Vertex Shader
 
 void main() {
     
-    vec4 texColor = texture(u_Texture, v_TexCoord);
+    //vec4 texColor = texture(u_Texture, v_TexCoord);
 
-    fragColor = texColor;
+    fragColor = vec4(1.0);
 
 };

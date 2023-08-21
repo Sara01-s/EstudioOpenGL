@@ -1,8 +1,7 @@
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include <iostream>
 
 #include "GLFWController.h"
+#include "Renderer.h"
 
 GLFWController::~GLFWController() {
     glfwTerminate();
@@ -15,6 +14,10 @@ int GLFWController::Initialize() {
         std::cout << "No se pudo inicializar GLFW\n";
         return -1;
     }
+
+   /* glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);*/
 
     m_Window = glfwCreateWindow(640, 480, "Ventana de OpenGL >:)", NULL, NULL);
 
@@ -39,4 +42,11 @@ int GLFWController::Initialize() {
 
     std::cout << "Utilizando version de OpenGL: " << glGetString(GL_VERSION) << '\n';
 
+    // VAO
+    unsigned int vertexArrayObject;
+    GLCall(glGenVertexArrays(1, &vertexArrayObject));
+    GLCall(glBindVertexArray(vertexArrayObject));
+    std::cout << "VAO Generado exitosamente\n";
+
+    return 1;
 }

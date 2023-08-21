@@ -59,7 +59,7 @@ int Shader::GetUniformLocation(const std::string& propertyName) {
 unsigned int Shader::CompileShader(unsigned int type, const std::string& source) {
 
     // desc: https://docs.gl/gl4/glCreateShader
-    unsigned int id = glCreateShader(type);
+    GLCall(unsigned int id = glCreateShader(type));
     const char* src = source.c_str(); // same as &source[0];
 
     // id: shader que creamos, 1: cuantos shaders son, &src: puntero al puntero del src, nullptr: solo hay 1 src, sino lo usariamos para dividir

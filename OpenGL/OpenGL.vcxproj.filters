@@ -89,6 +89,9 @@
     <ClCompile Include="TestClearColor.cpp">
       <Filter>src\Tests</Filter>
     </ClCompile>
+    <ClCompile Include="TestMatrices.cpp">
+      <Filter>src\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderer.h">
@@ -155,6 +158,9 @@
       <Filter>headers\Tests</Filter>
     </ClInclude>
     <ClInclude Include="TestClearColor.h">
+      <Filter>headers\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="TestMatrices.h">
       <Filter>headers\Tests</Filter>
     </ClInclude>
   </ItemGroup>
